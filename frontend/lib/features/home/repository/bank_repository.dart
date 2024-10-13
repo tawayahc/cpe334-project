@@ -9,7 +9,7 @@ class BankRepository {
 
     // Return mock data (you can replace this with API call)
     return [
-      Bank(name: 'กสิกร', balance: 10800555.00, color: Colors.green),
+      Bank(name: 'กสิกรไทย', balance: 1085800555888.00, color: Colors.green),
       Bank(name: 'กรุงไทย', balance: 20234.00, color: Colors.blue),
       Bank(name: 'ไทยพาณิชย์', balance: 1340.00, color: Colors.purple),
     ];

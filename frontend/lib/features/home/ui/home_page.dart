@@ -62,9 +62,9 @@ class HomePage extends StatelessWidget {
               const Text(
                 "บัญชีธนาคาร",
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black), // Text now uses Poppins
+                    color: Color(0xff414141)), // Text now uses Poppins
               ),
               const SizedBox(height: 10),
               BankSection(),
@@ -72,9 +72,9 @@ class HomePage extends StatelessWidget {
               const Text(
                 "ประเภทค่าใช้จ่าย",
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black), // Text now uses Poppins
+                    color: Color(0xff414141)), // Text now uses Poppins
               ),
               const SizedBox(height: 10),
               const ExpenseSection(),
