@@ -43,7 +43,9 @@ class HomePage extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.notifications,
                   color: Colors.black), // Set icon color to black
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/test_bottomNav');
+              }, // delete this before merge
             ),
             IconButton(
               icon: const Icon(Icons.settings,

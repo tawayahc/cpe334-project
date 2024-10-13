@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fundflow/features/test/ui/test_page1.dart';
 import 'core/themes/app_theme.dart';
 import 'features/auth/bloc/auth_bloc.dart';
 import 'features/auth/bloc/auth_event.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
             '/login': (context) => const LoginPage(),
             '/register': (context) => const RegistrationPage(),
             '/home': (context) => const HomePage(),
+            '/test_bottomNav': (context) => const TestPage1(),
           },
           debugShowCheckedModeBanner: false,
         ),
