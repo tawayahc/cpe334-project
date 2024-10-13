@@ -4,9 +4,11 @@ import 'core/themes/app_theme.dart';
 import 'features/auth/bloc/auth_bloc.dart';
 import 'features/auth/bloc/auth_event.dart';
 import 'features/auth/repository/auth_repository.dart';
-import 'features/auth/ui/auth_wrapper.dart';
 import 'features/auth/ui/login_page.dart';
 import 'features/auth/ui/registeration_page.dart';
+import 'features/home/repository/bank_repository.dart';
+import 'features/home/repository/expense_repository.dart';
+import 'features/home/repository/profile_repository.dart';
 import 'features/home/ui/home_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -17,46 +19,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: authenticationRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: authenticationRepository),
+        RepositoryProvider(create: (context) => BankRepository()),
+        RepositoryProvider(create: (context) => ExpenseRepository()),
+        RepositoryProvider(create: (context) => ProfileRepository()),
+      ],
       child: BlocProvider<AuthenticationBloc>(
         create: (context) => AuthenticationBloc(
-          authenticationRepository: authenticationRepository,
-        )..add(AppStarted()), // Initialize authentication state
+            authenticationRepository: authenticationRepository)
+          ..add(AppStarted()), // Handle the authentication flow
         child: MaterialApp(
           title: 'FundFlow',
-          theme: AppTheme.lightTheme, // Apply the light theme
-          darkTheme: AppTheme.darkTheme, // Apply the dark theme (optional)
-          themeMode: ThemeMode.system, // Use system theme mode
-          home: HomePage(),
+          theme: AppTheme.lightTheme, // Apply the Poppins light theme
+          darkTheme: AppTheme.darkTheme, // Apply the Poppins dark theme
+          themeMode: ThemeMode.system,
+          home: const HomePage(), // Decide whether to show login or HomePage
           routes: {
-            '/login': (context) => LoginPage(),
-            '/register': (context) => RegistrationPage(),
-            '/home': (context) => HomePage(), // No need to pass user object
-            // Add other routes here
+            '/login': (context) => const LoginPage(),
+            '/register': (context) => const RegistrationPage(),
+            '/home': (context) => const HomePage(),
           },
           debugShowCheckedModeBanner: false,
         ),
       ),
     );
-    // NOTE: Uncomment this block of code to test the page
-    //   child: BlocProvider<AuthenticationBloc>(
-    //     create: (context) => AuthenticationBloc(
-    //       authenticationRepository: authenticationRepository,
-    //     )..add(AppStarted()), // Ensure you have an AppStarted event
-    //     child: MaterialApp(
-    //       title: 'FundFlow',
-    //       theme: AppTheme.lightTheme, // Apply the theme here
-    //       home: LoginPage(), // NOTE: Change this to the page you want to test
-    //       routes: {
-    //         '/login': (context) => LoginPage(),
-    //         '/register': (context) => RegistrationPage(),
-    //         '/home': (context) => HomePage(),
-    //         // Add other routes here
-    //       },
-    //       debugShowCheckedModeBanner: false,
-    //     ),
-    //   ),
-    // );
   }
 }
