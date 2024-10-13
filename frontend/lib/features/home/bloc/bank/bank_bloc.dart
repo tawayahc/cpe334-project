@@ -1,30 +1,9 @@
+// bank_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fundflow/features/home/models/bank.dart';
+import 'package:fundflow/features/home/bloc/bank/bank_event.dart';
+import 'package:fundflow/features/home/bloc/bank/bank_state.dart';
 import 'package:fundflow/features/home/repository/bank_repository.dart';
 
-// Bank Event
-abstract class BankEvent {}
-
-class LoadBanks extends BankEvent {}
-
-// Bank State
-abstract class BankState {}
-
-class BanksLoading extends BankState {}
-
-class BanksLoaded extends BankState {
-  final List<Bank> banks;
-
-  BanksLoaded(this.banks);
-}
-
-class BankError extends BankState {
-  final String message;
-
-  BankError(this.message);
-}
-
-// Bank Bloc
 class BankBloc extends Bloc<BankEvent, BankState> {
   final BankRepository bankRepository;
 

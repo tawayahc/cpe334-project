@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fundflow/features/home/bloc/expense_bloc.dart';
+import 'package:fundflow/core/widgets/home/expense_card.dart';
+import 'package:fundflow/features/home/bloc/expense/expense_bloc.dart';
+import 'package:fundflow/features/home/bloc/expense/expense_state.dart';
 import 'package:fundflow/features/home/models/expense.dart';
+import 'package:fundflow/features/home/ui/cash_box.dart';
 
 class ExpenseSection extends StatelessWidget {
   const ExpenseSection({super.key});
@@ -16,13 +19,8 @@ class ExpenseSection extends StatelessWidget {
           return Column(
             children: [
               CashBox(cashBox: state.cashBox),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: state.expenses.map((expense) {
-                  return ExpenseCard(expense: expense);
-                }).toList(),
-              ),
+              const SizedBox(height: 20),
+              ..._buildExpenseRows(state.expenses),
             ],
           );
         } else {
@@ -31,81 +29,48 @@ class ExpenseSection extends StatelessWidget {
       },
     );
   }
-}
 
-class CashBox extends StatelessWidget {
-  final double cashBox;
+  // Function to group expenses in pairs and return rows
+  List<Widget> _buildExpenseRows(List<Expense> expenses) {
+    List<Widget> rows = [];
 
-  const CashBox({super.key, required this.cashBox});
+    for (int i = 0; i < expenses.length; i += 2) {
+      List<Widget> rowChildren = [];
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.grey.withOpacity(0.1),
-        border: Border.all(color: Colors.grey),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'แคชบ๊อกซ์',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-              color: Colors.black, // Set font color to black
-            ),
+      // First card
+      rowChildren.add(
+        Expanded(
+          child: ExpenseCard(expense: expenses[i]),
+        ),
+      );
+
+      // Second card or a spacer if only one card in the row
+      if (i + 1 < expenses.length) {
+        rowChildren.add(const SizedBox(width: 10)); // Space between cards
+        rowChildren.add(
+          Expanded(
+            child: ExpenseCard(expense: expenses[i + 1]),
           ),
-          const SizedBox(height: 10),
-          Text(
-            '฿ ${cashBox.toStringAsFixed(2)}',
-            style: const TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black, // Set font color to black
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+        );
+      } else {
+        rowChildren.add(const SizedBox(width: 10)); // Space for consistency
+        rowChildren.add(
+          const Spacer(), // Spacer to keep the single card at half width
+        );
+      }
 
-class ExpenseCard extends StatelessWidget {
-  final Expense expense;
-
-  const ExpenseCard({super.key, required this.expense});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: expense.color.withOpacity(0.1),
-        border: Border.all(color: expense.color),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            expense.category,
-            style: TextStyle(
-              color: expense.color,
-            ),
+      // Add the row with the two cards (or one card + spacer)
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: rowChildren,
           ),
-          const SizedBox(height: 10),
-          Text(
-            '฿ ${expense.amount.toStringAsFixed(2)}',
-            style: const TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black, // Set font color to black
-            ),
-          ),
-        ],
-      ),
-    );
+        ),
+      );
+    }
+
+    return rows;
   }
 }

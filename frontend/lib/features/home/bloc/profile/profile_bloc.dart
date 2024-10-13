@@ -1,30 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'profile_event.dart';
+import 'profile_state.dart';
 import 'package:fundflow/features/home/repository/profile_repository.dart';
 
-// Profile Event
-abstract class ProfileEvent {}
-
-class LoadProfile extends ProfileEvent {}
-
-// Profile State
-abstract class ProfileState {}
-
-class ProfileLoading extends ProfileState {}
-
-class ProfileLoaded extends ProfileState {
-  final String username;
-  final double totalMoney;
-
-  ProfileLoaded({required this.username, required this.totalMoney});
-}
-
-class ProfileError extends ProfileState {
-  final String message;
-
-  ProfileError({required this.message});
-}
-
-// Profile Bloc
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepository profileRepository;
 
@@ -32,7 +10,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<LoadProfile>((event, emit) async {
       emit(ProfileLoading());
       try {
-        // Fetch the profile from repository
         final profile = await profileRepository.getProfile();
         emit(ProfileLoaded(
           username: profile['username'],

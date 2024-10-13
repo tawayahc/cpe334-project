@@ -9,13 +9,12 @@ import 'features/auth/ui/registeration_page.dart';
 import 'features/home/repository/bank_repository.dart';
 import 'features/home/repository/expense_repository.dart';
 import 'features/home/repository/profile_repository.dart';
-import 'features/home/ui/home_page.dart';
+import 'features/home/pages/home_page.dart';
 
 class MyApp extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
 
-  const MyApp({Key? key, required this.authenticationRepository})
-      : super(key: key);
+  const MyApp({super.key, required this.authenticationRepository});
 
   @override
   Widget build(BuildContext context) {

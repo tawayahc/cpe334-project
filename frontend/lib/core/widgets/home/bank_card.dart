@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class BankCard extends StatelessWidget {
   final Bank bank;
 
-  BankCard({required this.bank});
+  const BankCard({super.key, required this.bank});
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class BankCard extends StatelessWidget {
                       bank.color.darken(0.1), // Darker shade of the bank.color
                       bank.color, // Original color
                       bank.color
-                          .withOpacity(0.5), // Lighter shade with 20% opacity
+                          .withOpacity(0.7), // Lighter shade with 20% opacity
                     ],
                     stops: const [
                       0.0,
